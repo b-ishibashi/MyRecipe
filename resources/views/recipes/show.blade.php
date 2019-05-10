@@ -34,21 +34,46 @@
                         <img src="{{ asset($recipe->user->avatar) }}" class="rounded-circle border" width="32" height="32">
                         <aside class="pl-3">{{ $recipe->user->name }}</aside>
                     </a>
-                    <a href="//twitter.com/share" class="twitter-share-button" data-text="[MyRecipe] {{ $recipe->title }}" data-lang="ja"></a>
+                    <a href="//twitter.com/share" class="twitter-share-button" data-text="[MyRecipe] 「{{ $recipe->title }}」 {{ $recipe->user->name }}さんより" data-lang="ja"></a>
                 </div>
             </div>
             <div class="comments py-5" style="width: 600px;">
-                <h2 class="pb-5">コメント</h2>
-                <div class="comment-card d-flex flex-column align-items-start">
-                    <ul>
-                        @forelse($recipe->comments as $comment)
-                            <li>{{ $comment }}</li>
-                        @empty
-                            <li>コメントはありません。</li>
-                        @endforelse
-                    </ul>
+                <h2 class="pb-5">コメント（{{ count($recipe->comments) }}件）</h2>
+                <div class="recipe-comments d-flex flex-column align-items-start">
+                    <div class="pagination align-self-center">{{ $recipe->getComments(5)->links() }}</div>
+                    @foreach($recipe->getComments(5) as $comment)
+                        @component('components.comment-card', compact('comment'))
+                        @endcomponent
+                    @endforeach
+                    <p class="pt-3" style="margin: 0">コメントを書く</p>
                 </div>
+                <form class="form-group" method="post" action="{{ action('CommentController@store', $recipe) }}">
+                    @csrf
+                    <textarea class="form-control mb-3" name="body" rows="2" cols="200">{{ old('body') }}</textarea>
+                    @if ($errors->has('body'))
+                        <p class="text-danger text-small">*{{ $errors->first('body') }}</p>
+                    @endif
+                    <div class="text-center">
+                        <input class="btn btn-primary w-50" type="submit" value="回答する" id="send-comment">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(function (){
+            'use strict';
+
+            $('#send-comment').submit(function() {
+                if (confirm('本当に送信しますか？')) {
+                    $(this).val('submit');
+                } else {
+                    return false;
+                }
+            });
+        });
+    </script>
+@endpush

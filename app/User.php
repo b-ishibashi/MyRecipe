@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -60,4 +61,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    /**
+     * @param $n
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getComments($n): LengthAwarePaginator
+    {
+        return $this->comments()->latest()->paginate($n);
+    }
+
+    /**
+     * @param $n
+     * @return LengthAwarePaginator
+     */
+    public function getRecipes($n): LengthAwarePaginator
+    {
+        return $this->recipes()->latest()->paginate($n);
+    }
+
 }

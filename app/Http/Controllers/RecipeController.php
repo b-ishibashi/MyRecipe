@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Recipe;
 use App\Tag;
 use Illuminate\Http\Request;

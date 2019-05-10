@@ -25,19 +25,8 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|string|max:30',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        // validate
-        if ($validator->fails()) {
-            return redirect('/register')
-                ->withErrors($validator)
-                ->withInput();
+        if ($response = $this->validateUser($request)) {
+            return $response;
         }
 
         // create user
@@ -54,6 +43,24 @@ class RegisterController extends Controller
 
         return redirect('/');
 
+    }
+
+    public function validateUser(Request $request)
+    {
+        $rules = [
+            'name' => 'required|string|max:30',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        // validate
+        if ($validator->fails()) {
+            return redirect('/register')
+                ->withErrors($validator)
+                ->withInput();
+        }
     }
 
 }

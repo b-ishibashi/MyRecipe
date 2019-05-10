@@ -30,6 +30,11 @@ Route::group(['middleware', 'auth'], function() {
 
     // ユーザ情報
     Route::get('/users/{user}', 'UserController@show');
+    Route::get('/users/{user}/edit', 'UserController@edit');
+    Route::put('users/{user}','UserController@update');
+
+    // コメント
+    Route::post('recipes/{recipe}/comment', 'CommentController@store');
 
     // レシピ作成
     Route::get('/recipes/create', 'RecipeController@create');
@@ -40,6 +45,7 @@ Route::group(['middleware', 'auth'], function() {
     // レシピ編集
     Route::get('recipes/{recipe}/edit', "RecipeController@edit");
     Route::put('recipes/{recipe}', 'RecipeController@update');
+
 });
 
 

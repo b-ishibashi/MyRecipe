@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -45,5 +46,14 @@ class Recipe extends Model
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likable');
+    }
+
+    /**
+     * @param $n
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getComments($n): LengthAwarePaginator
+    {
+        return $this->comments()->latest()->paginate($n);
     }
 }
