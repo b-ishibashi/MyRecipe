@@ -88,6 +88,8 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe): View
     {
+        $this->authorize('edit', $recipe);
+
         $editTags = '';
 
         foreach ($recipe->tags as $tag) {
@@ -100,6 +102,8 @@ class RecipeController extends Controller
 
     public function update(Request $request, Recipe $recipe)
     {
+        $this->authorize('edit', $recipe);
+
         if ($response = $this->validateRecipeThenFailed($request, $tags)) {
             return $response;
         }

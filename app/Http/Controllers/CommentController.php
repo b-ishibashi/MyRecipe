@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Policies\CommentPolicy;
 use App\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,8 @@ class CommentController extends Controller
 {
     public function store(Request $request, Recipe $recipe)
     {
+        $this->authorize('store', [Comment::class, $recipe]);
+
         $rules = [
             'body' => 'required|max:200',
         ];

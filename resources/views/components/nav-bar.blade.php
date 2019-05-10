@@ -14,6 +14,13 @@
         @auth
             <ul class="navbar-nav">
                 <li class="nav-item active">
+                    <form class="navbar-form" method="get" action="{{ action('IndexController@index') }}">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="レシピまたは材料名" name="q">
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-item active">
                     <a class="nav-link" href="{{ action('SessionController@logout') }}">ログアウト</a>
                 </li>
             </ul>

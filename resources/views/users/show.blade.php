@@ -8,7 +8,9 @@
                 <img src="{{ asset($user->avatar) }}" class="rounded-circle border" width="180" height="180">
             </div>
             <aside class="pb-2">{{ $user->name }}</aside>
-            <a class="btn btn-primary" href="{{ action('UserController@edit', $user) }}">設定</a>
+            @can('update', $user)
+                <a class="btn btn-primary" href="{{ action('UserController@edit', $user) }}">設定</a>
+            @endcan
         </div>
         <div class="profile-nav">
             <ul class="nav nav-tabs" id="myTab" role="tablist">

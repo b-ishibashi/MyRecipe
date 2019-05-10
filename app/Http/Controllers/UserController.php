@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
-use phpDocumentor\Reflection\Types\Compound;
 
 class UserController extends Controller
 {
@@ -30,12 +29,17 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
+        // ユーザー情報のアップデート権限を確認
+        $this->authorize('update', $user);
         return view('users.edit')
             ->with(compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
+        // ユーザー情報のアップデート権限を確認
+        $this->authorize('update', $user);
+
         $avatar = $request->file('avatar');
 
         $rules = [
