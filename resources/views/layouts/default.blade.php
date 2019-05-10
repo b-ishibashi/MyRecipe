@@ -18,7 +18,7 @@
         @component('components.nav-bar', ['menu' => [
             action('RecipeController@create') => 'レシピをつくる',
             action('UserController@show', Auth::user()) => 'プロフィール',
-        ]])
+        ], compact('q')])
         @endcomponent
     @endauth
     @guest
