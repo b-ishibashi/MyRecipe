@@ -10,7 +10,9 @@
                         <img src="{{ asset($recipe->recipeImage) }}" class="rounded-circle" width="256" height="256">
                     </div>
                     <div class="edit-recipe d-flex flex-column align-self-end">
-                        <a href="{{ action('RecipeController@edit', $recipe) }}">編集する</a>
+                        @can('edit', $recipe)
+                            <a href="{{ action('RecipeController@edit', $recipe) }}">編集する</a>
+                        @endcan
                     </div>
                 </div>
                 <div class="ingredient p-2">
@@ -45,18 +47,20 @@
                         @component('components.comment-card', compact('comment'))
                         @endcomponent
                     @endforeach
-                    <p class="pt-3" style="margin: 0">コメントを書く</p>
                 </div>
-                <form class="form-group" method="post" action="{{ action('CommentController@store', $recipe) }}">
-                    @csrf
-                    <textarea class="form-control mb-3" name="body" rows="2" cols="200">{{ old('body') }}</textarea>
-                    @if ($errors->has('body'))
-                        <p class="text-danger text-small">*{{ $errors->first('body') }}</p>
-                    @endif
-                    <div class="text-center">
-                        <input class="btn btn-primary w-50" type="submit" value="回答する" id="send-comment">
-                    </div>
-                </form>
+                @can('store', [\App\Comment::class, $recipe])
+                    <p class="pt-3" style="margin: 0">コメントを書く</p>
+                    <form class="form-group" method="post" action="{{ action('CommentController@store', $recipe) }}">
+                        @csrf
+                        <textarea class="form-control mb-3" name="body" rows="2" cols="200">{{ old('body') }}</textarea>
+                        @if ($errors->has('body'))
+                            <p class="text-danger text-small">*{{ $errors->first('body') }}</p>
+                        @endif
+                        <div class="text-center">
+                            <input class="btn btn-primary w-50" type="submit" value="回答する" id="send-comment">
+                        </div>
+                    </form>
+                @endcan
             </div>
         </div>
     </div>
