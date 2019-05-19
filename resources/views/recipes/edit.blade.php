@@ -7,12 +7,17 @@
             @csrf
             @method('put')
             <div class="p-5 d-flex flex-wrap justify-content-center" id="recipe-form">
-                <div class="text-center px-4 d-flex align-items-center">
-                    <label class="recipe-image">
-                        <p class="click-to-upload-recipe-image">画像を変更</p>
-                        <img src="{{ asset($recipe->recipeImage) }}" class="rounded-circle border" width="180" height="180">
-                        <input type="file" name="recipe-image" style="visibility: hidden; width: 0; height: 0;">
-                    </label>
+                <div class="d-flex justify-content-around">
+                    <div class="text-center px-4 d-flex align-items-center">
+                        <label class="recipe-image">
+                            <p class="click-to-upload-recipe-image">画像を変更</p>
+                            <img src="{{ asset($recipe->recipeImage) }}" class="rounded-circle border" width="180" height="180">
+                            <input type="file" name="recipe-image" style="visibility: hidden; width: 0; height: 0;">
+                        </label>
+                    </div>
+                    <div class="delete-recipe d-flex align-items-end">
+                        <a href="{{ action('RecipeController@delete', $recipe) }}">削除する</a>
+                    </div>
                 </div>
                 <div class="recipe-form px-4">
                     <label for="title">タイトル</label>

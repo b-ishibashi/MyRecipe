@@ -32,6 +32,7 @@ Route::group(['middleware', 'auth'], function() {
     Route::get('/users/{user}', 'UserController@show');
     Route::get('/users/{user}/edit', 'UserController@edit');
     Route::put('users/{user}','UserController@update');
+    Route::delete('users/{user}', 'UserController@delete');
 
     // コメント
     Route::post('recipes/{recipe}/comment', 'CommentController@store');
@@ -45,6 +46,8 @@ Route::group(['middleware', 'auth'], function() {
     // レシピ編集
     Route::get('recipes/{recipe}/edit', "RecipeController@edit");
     Route::put('recipes/{recipe}', 'RecipeController@update');
+
+    Route::get('recipe/{recipe}', 'RecipeController@delete');
 
 });
 

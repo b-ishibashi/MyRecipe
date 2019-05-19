@@ -84,6 +84,12 @@ class UserController extends Controller
             ->action('UserController@show', $user);
     }
 
+    public function delete(User $user)
+    {
+        User::destroy($user->id);
 
+        return redirect()
+            ->action('IndexController@index');
+    }
 
 }

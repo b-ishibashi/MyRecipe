@@ -58,6 +58,11 @@
         <p class="text-center">
             <a href="{{ action('UserController@show', $user) }}">戻る</a>
         </p>
+        <form method="post" action="{{ action('UserController@delete', $user) }}" name="user" class="text-center">
+            @csrf
+            @method('delete')
+            <a href="javascript:user.submit()">退会する</a>
+        </form>
     </div>
 @endsection
 

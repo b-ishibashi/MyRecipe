@@ -20,6 +20,7 @@ class CreateRecipesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->mediumText('ingredient');
             $table->mediumText('method');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
