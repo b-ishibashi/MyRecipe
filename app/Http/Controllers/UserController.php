@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
 
@@ -43,8 +44,23 @@ class UserController extends Controller
         $avatar = $request->file('avatar');
 
         $rules = [
-            'name' => 'required|string|max:30|unique:users,name,' . Auth::user()->id,
-            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
+            'name' => [
+                'required',
+                'string',
+                'max:30',
+                Rule::unique('users', 'name')
+                    ->ignore($user->id)
+                    ->where('existence', true),
+            ],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')
+                    ->ignore($user->id)
+                    ->where('existence', true),
+            ],
             'old_password' => ['required', new Oldpassword($request)],
             'new_password' => 'nullable|string|min:8|confirmed',
             'avatar' => 'nullable|file|mimes:jpeg,png,gif',

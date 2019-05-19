@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class RegisterController extends Controller
@@ -48,8 +49,23 @@ class RegisterController extends Controller
     public function validateUser(Request $request)
     {
         $rules = [
-            'name' => 'required|string|max:30',
-            'email' => 'required|string|email|max:255|unique:users',
+            'name' => [
+                'required',
+                'string',
+                'max:30',
+                Rule::unique('users', 'name')
+                    ->ignore(Auth::id())
+                    ->where('existence', true),
+            ],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')
+                    ->ignore(Auth::id())
+                    ->where('existence', true),
+            ],
             'password' => 'required|string|min:8|confirmed',
         ];
 
