@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Recipe;
 use App\Tag;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -100,6 +101,12 @@ class RecipeController extends Controller
             ->with(compact('recipe', 'editTags'));
     }
 
+    /**
+     * @param Request $request
+     * @param Recipe $recipe
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(Request $request, Recipe $recipe)
     {
         $this->authorize('edit', $recipe);
@@ -135,6 +142,18 @@ class RecipeController extends Controller
 
         return redirect()
             ->action('RecipeController@show', $recipe);
+    }
+
+    /**
+     * @param Recipe $recipe
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(Recipe $recipe): RedirectResponse
+    {
+        Recipe::destroy($recipe->id);
+
+        return redirect()
+            ->action('IndexController@index');
     }
 
     /**

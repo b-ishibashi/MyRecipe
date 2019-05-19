@@ -16,7 +16,7 @@
                 <li class="nav-item active">
                     <form class="navbar-form" method="get" action="{{ action('IndexController@index') }}">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="レシピまたは材料名" name="q" value="{{ $q }}">
+                            <input type="text" class="form-control" placeholder="レシピまたは材料名" name="q" value="{{ $q ?? '' }}">
                         </div>
                     </form>
                 </li>
